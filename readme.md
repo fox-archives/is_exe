@@ -1,4 +1,4 @@
-# deno-isexe
+# is_exe
 
 A port of the [https://github.com/isaacs/isexe](https://github.com/isaacs/isexe) package for Deno
 
@@ -44,7 +44,7 @@ try {
 
 ### Options
 
-- `ignoreErrors`
-- `uid`
-- `gid`
-- `pathExt`
+- `ignoreErrors` Treat all errors as "no, this is not executable", but don't raise them.
+- `uid` Number to use as the user id
+- `gid` Number to use as the group id
+- `pathExt` List of path extensions to use instead of PATHEXT environment variable on Windows *(not implemented)*

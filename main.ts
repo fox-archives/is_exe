@@ -5,13 +5,41 @@ interface IOptions {
   pathExt?: Array<string>;
 }
 
-export async function isExecutable(file: string, options?: IOptions): Promise<boolean> {
-  const fileInfo: Deno.FileInfo = await Deno.stat(file);
-  console.log("mode: ", fileInfo.mode);
+/**
+ * @description test if file is executable asyncronously
+ */
+export async function isExecutable(
+  file: string,
+  options?: IOptions,
+): Promise<boolean> {
+  try {
+    const fileInfo: Deno.FileInfo = await Deno.stat(file);
+    if (fileInfo.isDirectory) return false;
 
-  if (fileInfo.isDirectory) return false;
+    return checkMode(fileInfo, options);
+  } catch (err) {
+    if(options?.ignoreErrors) {
+      return false
+    }
+    throw new Error(err)
+  }
+}
 
-  return checkMode(fileInfo, options);
+export function isExecutableSync(
+  file: string,
+  options?: IOptions,
+): boolean {
+  try {
+    const fileInfo: Deno.FileInfo = Deno.statSync(file);
+    if (fileInfo.isDirectory) return false;
+
+    return checkMode(fileInfo, options);
+  } catch (err) {
+    if(options?.ignoreErrors) {
+      return false
+    }
+    throw new Error(err)
+  }
 }
 
 function checkMode(fileInfo: Deno.FileInfo, options?: IOptions): boolean {
@@ -30,9 +58,11 @@ function checkMode(fileInfo: Deno.FileInfo, options?: IOptions): boolean {
   const o = parseInt("001", 8);
   const ug = u | g;
 
-  if (!mode) return false
-  return Boolean((mode & o) ||
-    (mode & g) && fileGid === myGid ||
-    (mode & u) && fileUid === myUid ||
-    (mode & ug) && myUid === 0)
+  if (!mode) return false;
+  return Boolean(
+    (mode & o) ||
+      (mode & g) && fileGid === myGid ||
+      (mode & u) && fileUid === myUid ||
+      (mode & ug) && myUid === 0,
+  );
 }
