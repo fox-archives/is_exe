@@ -1,11 +1,11 @@
 #!/bin/bash
 
 start() {
-  T_UID=$UID T_GID=$GID deno run --allow-read --allow-env main.ts
+  deno run --allow-read --unstable --allow-env --allow-run main.ts
 }
 
 test() {
-  T_UID=$UID T_GID=$GID deno test --allow-read --allow-env
+  deno test --allow-read --unstable --allow-env --allow-run
 }
 
 case "$1" in

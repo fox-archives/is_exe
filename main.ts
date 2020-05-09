@@ -6,6 +6,28 @@ interface IOptions {
 }
 
 /**
+ * get either GID or UID
+ */
+async function getId(idType: 'GID' | 'UID'): Promise<number> {
+  const idArg = idType === 'UID' ? '-u' : '-g'
+
+  const proc = Deno.run({
+    stdout: "piped",
+    stderr: "inherit",
+    stdin: "inherit",
+    cmd: ['id', idArg]
+  })
+
+  await proc.status()
+  const stdout = await proc.output()
+  const id = Number(new TextDecoder().decode(stdout))
+  // proc.output() already calls close() on stdout
+  // when it's done. but sometimes it doesn't work
+  await proc.close()
+  return id
+}
+
+/**
  * @description asyncronously test if file is executable
  */
 export async function isExecutable(
@@ -14,9 +36,13 @@ export async function isExecutable(
 ): Promise<boolean> {
   try {
     const fileInfo: Deno.FileInfo = await Deno.stat(file);
+
     if (fileInfo.isDirectory) return false;
 
-    return checkMode(fileInfo, options);
+    const realUid = await getId("UID")
+    const realGid = await getId("GID")
+
+    return checkMode(fileInfo, { realUid, realGid }, options);
   } catch (err) {
     if(options?.ignoreErrors) {
       return false
@@ -36,7 +62,10 @@ export function isExecutableSync(
     const fileInfo: Deno.FileInfo = Deno.statSync(file);
     if (fileInfo.isDirectory) return false;
 
-    return checkMode(fileInfo, options);
+    const realUid = Number(Deno.env.get("T_UID"));
+    const realGid = Number(Deno.env.get("T_GID"));
+
+    return checkMode(fileInfo, { realUid, realGid }, options);
   } catch (err) {
     if(options?.ignoreErrors) {
       return false
@@ -45,16 +74,22 @@ export function isExecutableSync(
   }
 }
 
-function checkMode(fileInfo: Deno.FileInfo, options?: IOptions): boolean {
-  const realUid = Deno.env.get("T_UID");
-  const realGid = Deno.env.get("T_GID");
+interface  IRunInfo {
+  realUid?: number,
+  realGid?: number
+}
 
+/**
+ * root logic for checking if file information and file ownership
+ * enables it to be executed
+ */
+function checkMode(fileInfo: Deno.FileInfo, runInfo: IRunInfo, options?: IOptions): boolean {
   const mode = fileInfo.mode;
   const fileUid = fileInfo.uid;
   const fileGid = fileInfo.gid;
 
-  const myUid = options?.uid ?? realUid;
-  const myGid = options?.gid ?? realGid;
+  const myUid = options?.uid ?? runInfo.realUid;
+  const myGid = options?.gid ?? runInfo.realGid;
 
   const u = parseInt("100", 8);
   const g = parseInt("010", 8);

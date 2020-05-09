@@ -101,3 +101,13 @@ Deno.test({
     }
   }
 })
+
+// TODO
+Deno.test({
+  name: "async: file owned by different user not executable",
+  async fn(): Promise<void> {
+    try {
+      isExecutable("./notOwned.txt")
+    } catch {}
+  }
+})

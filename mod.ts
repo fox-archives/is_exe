@@ -1,1 +1,1 @@
-export { isExecutable, isExecutableSync } from './main.ts'
+export { isExecutable } from './main.ts'

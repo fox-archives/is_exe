@@ -5,11 +5,7 @@ A port of the [https://github.com/isaacs/isexe](https://github.com/isaacs/isexe)
 ## Usage
 
 ```sh
-# this exposes shell variables $UID and $GID to environment
-# variables T_UID and T_GID for the deno process. workaround because
-# i couldn't seem to find api for obtaining user gid. you need to use
-# a shell like bash or zsh which populates the UID and GID shell variables
-T_UID=$UID T_GID=$GID deno run --allow-read --allow-env main.ts
+deno run --allow-read --allow-env main.ts
 ```
 
 ```js
@@ -27,8 +23,6 @@ try {
 ## API
 
 ### `isExecutable(filePath, [options])`
-
-### `isExecutableSync(filePath, [options])`
 
 ### Options
 
