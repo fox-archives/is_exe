@@ -17,34 +17,22 @@ T_UID=$UID T_GID=$GID deno run --allow-read --allow-env main.ts
 import { isExecutable } from ''
 
 try {
-  const isExe await isExecutable('./file')
+  const isExe = await isExecutable('./file')
   isExe ?? console.log('file is executable')
 } catch {
   console.log('error reading file')
 }
 ```
 
-```js
-// main.ts
-import { isExecutableSync } from ''
+## API
 
-try {
-  const isExe isExecutableSync('./file')
-  isExe ?? console.log('file is executable')
-} catch {
-  console.log('error reading file')
-}
-```
+### `isExecutable(filePath, [options])`
 
-## Api
-
-### `isExecutable`
-
-### `isExecutableSync`
+### `isExecutableSync(filePath, [options])`
 
 ### Options
 
-- `ignoreErrors` Treat all errors as "no, this is not executable", but don't raise them.
-- `uid` Number to use as the user id
-- `gid` Number to use as the group id
-- `pathExt` List of path extensions to use instead of PATHEXT environment variable on Windows *(not implemented)*
+- `ignoreErrors` treat all errors as "no, this is not executable", but don't raise them.
+- `uid` number to use as the user id
+- `gid` number to use as the group id
+- `pathExt` list of path extensions to use instead of PATHEXT environment variable on Windows *(not implemented)*

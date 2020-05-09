@@ -1,5 +1,5 @@
 import { fail, assertEquals } from "https://deno.land/std/testing/asserts.ts";
-import { isExecutable, isExecutableSync } from "./main.ts";
+import { isExecutable, isExecutableSync } from "./mod.ts";
 
 Deno.test({
   name: "async: executable file is executable",
