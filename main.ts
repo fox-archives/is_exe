@@ -6,7 +6,7 @@ interface IOptions {
 }
 
 /**
- * @description test if file is executable asyncronously
+ * @description asyncronously test if file is executable
  */
 export async function isExecutable(
   file: string,
@@ -25,6 +25,9 @@ export async function isExecutable(
   }
 }
 
+/**
+ * @description syncronously test if the file is execuable
+ */
 export function isExecutableSync(
   file: string,
   options?: IOptions,
