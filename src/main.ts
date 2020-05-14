@@ -8,23 +8,23 @@ interface IOptions {
 /**
  * get either GID or UID
  */
-async function getId(idType: 'GID' | 'UID'): Promise<number> {
-  const idArg = idType === 'UID' ? '-u' : '-g'
+async function getId(idType: "GID" | "UID"): Promise<number> {
+  const idArg = idType === "UID" ? "-u" : "-g";
 
   const proc = Deno.run({
     stdout: "piped",
     stderr: "inherit",
     stdin: "inherit",
-    cmd: ['id', idArg]
-  })
+    cmd: ["id", idArg],
+  });
 
-  await proc.status()
-  const stdout = await proc.output()
-  const id = Number(new TextDecoder().decode(stdout))
+  await proc.status();
+  const stdout = await proc.output();
+  const id = Number(new TextDecoder().decode(stdout));
   // proc.output() already calls close() on stdout
   // when it's done. but sometimes it doesn't work
-  await proc.close()
-  return id
+  await proc.close();
+  return id;
 }
 
 /**
@@ -39,51 +39,32 @@ export async function isExecutable(
 
     if (fileInfo.isDirectory) return false;
 
-    const realUid = await getId("UID")
-    const realGid = await getId("GID")
+    const realUid = await getId("UID");
+    const realGid = await getId("GID");
 
     return checkMode(fileInfo, { realUid, realGid }, options);
   } catch (err) {
-    if(options?.ignoreErrors) {
-      return false
+    if (options?.ignoreErrors) {
+      return false;
     }
-    throw new Error(err)
+    throw new Error(err);
   }
 }
 
-/**
- * @description syncronously test if the file is execuable
- */
-export function isExecutableSync(
-  file: string,
-  options?: IOptions,
-): boolean {
-  try {
-    const fileInfo: Deno.FileInfo = Deno.statSync(file);
-    if (fileInfo.isDirectory) return false;
-
-    const realUid = Number(Deno.env.get("T_UID"));
-    const realGid = Number(Deno.env.get("T_GID"));
-
-    return checkMode(fileInfo, { realUid, realGid }, options);
-  } catch (err) {
-    if(options?.ignoreErrors) {
-      return false
-    }
-    throw new Error(err)
-  }
-}
-
-interface  IRunInfo {
-  realUid?: number,
-  realGid?: number
+interface IRunInfo {
+  realUid?: number;
+  realGid?: number;
 }
 
 /**
  * root logic for checking if file information and file ownership
  * enables it to be executed
  */
-function checkMode(fileInfo: Deno.FileInfo, runInfo: IRunInfo, options?: IOptions): boolean {
+function checkMode(
+  fileInfo: Deno.FileInfo,
+  runInfo: IRunInfo,
+  options?: IOptions,
+): boolean {
   const mode = fileInfo.mode;
   const fileUid = fileInfo.uid;
   const fileGid = fileInfo.gid;

@@ -1,0 +1,7 @@
+scripts:
+  start: deno start --unstable src/main.ts
+  test: deno test --unstable
+allow:
+  - read
+  - env
+  - run

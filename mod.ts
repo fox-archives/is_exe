@@ -1,1 +1,1 @@
-export { isExecutable } from './main.ts'
+export * from "./src/main.ts";
