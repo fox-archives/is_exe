@@ -14,7 +14,7 @@ import { isExecutable } from 'https://raw.githubusercontent.com/eankeen/is_exe/m
 
 try {
   const isExe = await isExecutable('./file')
-  isExe || console.log('file is executable')
+  isExe && console.log('file is executable')
 } catch {
   console.log('error reading file')
 }
