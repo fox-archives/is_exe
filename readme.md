@@ -1,6 +1,6 @@
 # is_exe
 
-![github workflow status (branch)](https://img.shields.io/github/workflow/status/eankeen/is_exe/test/master) ![github badge](https://img.shields.io/github/license/eankeen/is_exe) ![gitHub issues](https://img.shields.io/github/issues/eankeen/is_exe)
+![github ci](https://github.com/eankeen/is_exe/workflows/Test%20CI/badge.svg?branch=master) ![github badge](https://img.shields.io/github/license/eankeen/is_exe) ![gitHub issues](https://img.shields.io/github/issues/eankeen/is_exe)
 
 A port of the [https://github.com/isaacs/isexe](https://github.com/isaacs/isexe) package for Deno
 
