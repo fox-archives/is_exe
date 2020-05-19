@@ -3,5 +3,4 @@ scripts:
   test: deno test --unstable
 allow:
   - read
-  - env
   - run
