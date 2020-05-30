@@ -22,6 +22,15 @@ try {
 }
 ```
 
+### Versions
+
+You can pin per version. the following are supported version
+
+```sh
+# deno 1.0.3 and std v0.53.0
+https://raw.githubusercontent.com/eankeen/is_exe/v1.0.3/mod.ts
+```
+
 ## API
 
 ### `isExecutable(filePath, [options])`

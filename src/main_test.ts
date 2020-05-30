@@ -1,5 +1,5 @@
-import { fail, assertEquals } from "https://deno.land/std@0.50.0/testing/asserts.ts";
-import { join, dirname } from "https://deno.land/std@0.50.0/path/mod.ts";
+import { fail, assertEquals } from "https://deno.land/std@0.54.0/testing/asserts.ts";
+import { join, dirname } from "https://deno.land/std@0.54.0/path/mod.ts";
 import { isExecutable } from "./main.ts";
 
 let currentDir = dirname(new URL(import.meta.url).pathname);
