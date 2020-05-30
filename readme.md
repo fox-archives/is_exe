@@ -4,6 +4,8 @@
 
 A port of the [https://github.com/isaacs/isexe](https://github.com/isaacs/isexe) package for Deno
 
+NOTE: currently not working for windows
+
 ## Usage
 
 ```sh
