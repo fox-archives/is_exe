@@ -31,7 +31,7 @@ try {
 You can pin per version:
 
 ```sh
-https://deno.land/x/is_exe/v1.0.3/mod.ts
+https://deno.land/x/is_exe/v1.1.0/mod.ts
 ```
 
 ## API
