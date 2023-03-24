@@ -28,10 +28,9 @@ try {
 
 ### Versions
 
-You can pin per version. the following are supported version
+You can pin per version:
 
 ```sh
-# deno 1.0.3 and std v0.53.0
 https://deno.land/x/is_exe/v1.0.3/mod.ts
 ```
 
