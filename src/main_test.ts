@@ -17,7 +17,7 @@ Deno.test({
 Deno.test({
   name: "async: non-executable file is not executable",
   async fn(): Promise<void> {
-    const filePath = join(currentDir, '../readme.md')
+    const filePath = join(currentDir, '../README.md')
     const isExec = await isExecutable(filePath);
 
     assertEquals(isExec, false);
